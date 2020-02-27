@@ -32,12 +32,19 @@ pygame.mixer.music.play()
 
 
 while True:
+	time.sleep(3.417)
 	writingService.write("A")
 	print "LED ON"
 
-	time.sleep(2)
+	# 4.25
+	time.sleep(0.833)
 
 	writingService.write("B")
 	print "LED OFF"
 
-	time.sleep(2)
+	# 5.042
+	time.sleep(0.792)
+		writingService.write("A")
+	print "LED ON"
+
+	time.sleep(1)
