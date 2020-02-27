@@ -1,17 +1,10 @@
 #! /usr/bin/python
 
-import serial
-from time import sleep
+from bluepy import btle
 
-bluetoothSerial = serial.Serial( "/dev/rfcomm1", baudrate=9600 )
+print "Connecting..."
+dev = btle.Peripheral("24:62:ab:d5:08:06")
 
-count = None
-while count == None:
-    try:
-        count = int(raw_input( "Please enter the number of times to blink the L$
-    except:
-        pass    # Ignore any errors that may occur and try again
-
-
-bluetoothSerial.write( str(count) )
-print bluetoothSerial.readline()
+print "Services..."
+for svc in dev.services:
+	print str(svc)
