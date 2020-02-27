@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 from bluepy import btle
+import binascii
 
 print "Connecting..."
 dev = btle.Peripheral("24:62:ab:d5:08:06")
