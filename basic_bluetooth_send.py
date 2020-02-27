@@ -21,7 +21,6 @@ setupService = esp32.getServiceByUUID(setup)
 
 writing = btle.UUID("6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
 
-
 writingService = setupService.getCharacteristics(writing)[0]
 
 
@@ -44,7 +43,7 @@ while True:
 
 	# 5.042
 	time.sleep(0.792)
-		writingService.write("A")
+	writingService.write("A")
 	print "LED ON"
 
 	time.sleep(1)
