@@ -22,4 +22,6 @@ setupConfig = setupService.getCharacteristics(readingSensor)[0]
 
 val = setupConfig.read()
 
-print "Light sensor raw value", binascii.b2a_hex(val)
+# print "Light sensor raw value", binascii.b2a_hex(val)
+
+print "Light sensor raw value", val
