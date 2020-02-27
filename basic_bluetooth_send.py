@@ -4,6 +4,9 @@ from bluepy import btle
 import binascii
 import time
 
+# Audio
+import pygame
+
 print "Connecting..."
 esp32 = btle.Peripheral("24:62:ab:d5:08:06")
 
@@ -20,6 +23,12 @@ writing = btle.UUID("6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
 
 
 writingService = setupService.getCharacteristics(writing)[0]
+
+
+# Audio
+pygame.mixer.init()
+pygame.mixer.music.load("renegade.mp3")
+pygame.mixer.music.play()
 
 
 while True:
