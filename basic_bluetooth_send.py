@@ -54,4 +54,4 @@ writingService.write("B")
 print "LED OFF"
 
 
-pygame.mixer.fadeout
+pygame.mixer.fadeout()
