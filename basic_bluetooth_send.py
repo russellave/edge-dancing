@@ -39,14 +39,16 @@ with open('renegade.csv') as csvfile:
 	pygame.mixer.music.play()
 	start_time = time.time()
 
+	print("Starting loop through csv")
+
 	for row in csv_reader:
 		current_time = time.time()
 		time_diff = current_time - start_time
-		while time_diff < row['timestamp']:
+		while time_diff < row.get('timestamp'):
 			current_time = time.time()
 			time_diff = current_time - start_time
 
-		if row['led'] == 'on':
+		if row.get('led') == 'on':
 			print("Turning Light on")
 			writingService.write("A")
 		else:
