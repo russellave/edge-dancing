@@ -62,10 +62,10 @@ with open('renegade.csv') as csvfile:
 			print(mac)
 			if mac in writers:
 				if row.get('led') == 'on':
-					print("Turning Light on")
+					print("Turning Light on "+mac)
 					writers[mac].write("A")
 				else:
-					print("Turning Light off")
+					print("Turning Light off "+mac)
 					writers[mac].write("B")
 
 
