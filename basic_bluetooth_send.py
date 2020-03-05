@@ -29,6 +29,11 @@ writing = btle.UUID("6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
 
 writingService = setupService.getCharacteristics(writing)[0]
 
+# 3.457 is when renegade starts in the song
+# 5.274 is when it is matched up with the first LED ON
+# 1.817 second delay seems to be ocurring
+delay = 1.817
+
 
 # Audio
 with open('renegade.csv') as csvfile:
@@ -37,11 +42,9 @@ with open('renegade.csv') as csvfile:
 	pygame.mixer.init()
 	pygame.mixer.music.load("renegade.mp3")
 	pygame.mixer.music.play()
-	start_time = time.time()
+	start_time = time.time() + delay
 
-	# 3.457 is when renegade starts in the song
-	# 5.274 is when it is matched up with the first LED ON
-	# 1.817 second delay seems to be ocurring
+
 
 # 	print("Starting loop through csv")
 
