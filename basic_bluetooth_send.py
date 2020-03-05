@@ -50,4 +50,8 @@ print "LED ON"
 
 time.sleep(1)
 
+writingService.write("B")
+print "LED OFF"
+
+
 pygame.mixer.fadeout
