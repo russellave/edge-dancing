@@ -22,7 +22,7 @@ for mac in mac_addrs:
 	setupService = esp32.getServiceByUUID(setup)
 	writing = btle.UUID("6E400002-B5A3-F393-E0A9-E50E24DCCA9E")
 	writers[mac] = (setupService.getCharacteristics(writing)[0])
-print(writers)
+
 
 
 
@@ -61,10 +61,10 @@ with open('renegade.csv') as csvfile:
 		for mac in row.get('mac').split('_'):
 			if mac in writers:
 				if row.get('led') == 'on':
-		#			print("Turning Light on")
+					print("Turning Light on")
 					writers[mac].write("A")
 				else:
-		#			print("Turning Light off")
+					print("Turning Light off")
 					writers[mac].write("B")
 
 
