@@ -38,9 +38,9 @@ delay = 1.817
 with open('renegade.csv') as csvfile:
 	csv_reader = csv.DictReader(csvfile)
 # # print("Time Before Playing: " + str(time.time()))
-	pygame.mixer.init()
-	pygame.mixer.music.load("renegade.mp3")
-	pygame.mixer.music.play()
+	# pygame.mixer.init()
+	# pygame.mixer.music.load("renegade.mp3")
+	# pygame.mixer.music.play()
 	start_time = time.time() + delay
 
 
@@ -92,4 +92,4 @@ with open('renegade.csv') as csvfile:
 # print "LED OFF"
 
 
-	pygame.mixer.fadeout(1000)
+	# pygame.mixer.fadeout(1000)
