@@ -25,12 +25,14 @@ writingService = setupService.getCharacteristics(writing)[0]
 
 
 # Audio
+print("Time Before Playing: " + time.time())
 pygame.mixer.init()
 pygame.mixer.music.load("renegade.mp3")
 pygame.mixer.music.play()
 
 
 while True:
+	print("Time of next loop: "  + time.time())
 	time.sleep(3.417)
 	writingService.write("A")
 	print "LED ON"
