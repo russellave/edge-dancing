@@ -33,7 +33,7 @@ pygame.mixer.music.play()
 
 while True:
 	print("Time of next loop: "  + str(time.time()))
-	time.sleep(3.417)
+	time.sleep(3.447)
 	writingService.write("A")
 	print "LED ON"
 
