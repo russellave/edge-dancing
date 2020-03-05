@@ -58,7 +58,7 @@ with open('renegade.csv') as csvfile:
 		while time_diff < time_stamp:
 			current_time = time.time()
 			time_diff = current_time - start_time
-
+		print(row.get('mac'))
 		for mac in row.get('mac').split('_'):
 			if mac in writers:
 				if row.get('led') == 'on':
