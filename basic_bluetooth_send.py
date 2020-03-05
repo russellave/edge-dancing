@@ -31,21 +31,23 @@ pygame.mixer.music.load("renegade.mp3")
 pygame.mixer.music.play()
 
 
-while True:
-	print("Time of next loop: "  + str(time.time()))
-	time.sleep(3.447)
-	writingService.write("A")
-	print "LED ON"
+# while True:
+print("Time of next loop: "  + str(time.time()))
+time.sleep(3.447)
+writingService.write("A")
+print "LED ON"
 
-	# 4.25
-	time.sleep(0.833)
+# 4.25
+time.sleep(0.833)
 
-	writingService.write("B")
-	print "LED OFF"
+writingService.write("B")
+print "LED OFF"
 
-	# 5.042
-	time.sleep(0.792)
-	writingService.write("A")
-	print "LED ON"
+# 5.042
+time.sleep(0.792)
+writingService.write("A")
+print "LED ON"
 
-	time.sleep(1)
+time.sleep(1)
+
+pygame.mixer.fadeout
