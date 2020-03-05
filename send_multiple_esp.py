@@ -35,38 +35,38 @@ delay = 1.817
 
 
 # Audio
-# with open('renegade.csv') as csvfile:
-csv_reader = csv.DictReader(csvfile)
+with open('renegade.csv') as csvfile:
+	csv_reader = csv.DictReader(csvfile)
 # # print("Time Before Playing: " + str(time.time()))
 # 	pygame.mixer.init()
 # 	pygame.mixer.music.load("renegade.mp3")
 # 	pygame.mixer.music.play()
-start_time = time.time() + delay
+	start_time = time.time() + delay
 
 
 
 # 	print("Starting loop through csv")
 
-for row in csv_reader:
-	current_time = time.time()
-	time_diff = current_time - start_time
-	time_stamp = float(row.get('timestamp'))
-
-#		print("Time Diff: " + str(time_diff))
-#		print("timestamp: " + str(time_stamp))
-
-	while time_diff < time_stamp:
+	for row in csv_reader:
 		current_time = time.time()
 		time_diff = current_time - start_time
+		time_stamp = float(row.get('timestamp'))
 
-	for mac in row.get('mac').split('_'):
-		if mac in writers:
-			if row.get('led') == 'on':
-	#			print("Turning Light on")
-				writers[mac].write("A")
-			else:
-	#			print("Turning Light off")
-				writers[mac].write("B")
+	#		print("Time Diff: " + str(time_diff))
+	#		print("timestamp: " + str(time_stamp))
+
+		while time_diff < time_stamp:
+			current_time = time.time()
+			time_diff = current_time - start_time
+
+		for mac in row.get('mac').split('_'):
+			if mac in writers:
+				if row.get('led') == 'on':
+		#			print("Turning Light on")
+					writers[mac].write("A")
+				else:
+		#			print("Turning Light off")
+					writers[mac].write("B")
 
 
 # # while True:
