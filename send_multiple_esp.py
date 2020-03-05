@@ -59,6 +59,7 @@ with open('renegade.csv') as csvfile:
 			current_time = time.time()
 			time_diff = current_time - start_time
 		for mac in row.get('mac').split('_'):
+			print(mac)
 			if mac in writers:
 				if row.get('led') == 'on':
 					print("Turning Light on")
