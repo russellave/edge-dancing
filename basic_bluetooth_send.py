@@ -47,8 +47,10 @@ with open('renegade.csv') as csvfile:
 			time_diff = current_time - start_time
 
 		if row['led'] == 'on':
+			print("Turning Light on")
 			writingService.write("A")
 		else:
+			print("Turning Light off")
 			writingService.write("B")
 
 
