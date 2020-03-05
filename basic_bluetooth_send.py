@@ -44,8 +44,12 @@ with open('renegade.csv') as csvfile:
 	for row in csv_reader:
 		current_time = time.time()
 		time_diff = current_time - start_time
+		time_stamp = row.get('timestamp')
+
 		print("Time Diff: " + str(time_diff))
-		while time_diff < row.get('timestamp'):
+		print("timestamp: " + time_stamp)
+
+		while time_diff < time_stamp:
 			current_time = time.time()
 			time_diff = current_time - start_time
 
