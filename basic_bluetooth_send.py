@@ -10,8 +10,6 @@ import pygame
 # CSV
 import csv
 
-with open('renegade.csv') as csvfile:
-	csv_reader = csv.DictReader(csvfile)
 	# for row in reader:
 	# 	print(row['first_name'], row['last_name'])
 
@@ -33,23 +31,25 @@ writingService = setupService.getCharacteristics(writing)[0]
 
 
 # Audio
-print("Time Before Playing: " + str(time.time()))
-pygame.mixer.init()
-pygame.mixer.music.load("renegade.mp3")
-pygame.mixer.music.play()
-start_time = time.time()
+with open('renegade.csv') as csvfile:
+	csv_reader = csv.DictReader(csvfile)
+# print("Time Before Playing: " + str(time.time()))
+	pygame.mixer.init()
+	pygame.mixer.music.load("renegade.mp3")
+	pygame.mixer.music.play()
+	start_time = time.time()
 
-for row in csv_reader:
-	current_time = time.time()
-	time_diff = current_time - start_time
-	while time_diff < row['timestamp']:
+	for row in csv_reader:
 		current_time = time.time()
 		time_diff = current_time - start_time
+		while time_diff < row['timestamp']:
+			current_time = time.time()
+			time_diff = current_time - start_time
 
-	if row['led'] == 'on':
-		writingService.write("A")
-	else:
-		writingService.write("B")
+		if row['led'] == 'on':
+			writingService.write("A")
+		else:
+			writingService.write("B")
 
 
 # # while True:
@@ -75,4 +75,4 @@ for row in csv_reader:
 # print "LED OFF"
 
 
-pygame.mixer.fadeout(1000)
+	pygame.mixer.fadeout(1000)
