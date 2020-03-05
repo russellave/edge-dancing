@@ -14,7 +14,7 @@ import csv
 	# 	print(row['first_name'], row['last_name'])
 
 print "Connecting..."
-mac_addrs = ["24:62:ab:d5:08:06", "24:62:ab:d7:59:a4"]
+mac_addrs = ["24:62:ab:d5:08:06"]
 writers = {}
 setup = btle.UUID("6E400001-B5A3-F393-E0A9-E50E24DCCA9E")
 for mac in mac_addrs:
@@ -60,13 +60,13 @@ with open('renegade.csv') as csvfile:
 			time_diff = current_time - start_time
 
 		for mac in row.get('mac').split('_'):
-
-			if row.get('led') == 'on':
-	#			print("Turning Light on")
-				writers[mac].write("A")
-			else:
-	#			print("Turning Light off")
-				writers[mac].write("B")
+			if mac in writers:
+				if row.get('led') == 'on':
+		#			print("Turning Light on")
+					writers[mac].write("A")
+				else:
+		#			print("Turning Light off")
+					writers[mac].write("B")
 
 
 # # while True:
