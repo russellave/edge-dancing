@@ -1,11 +1,19 @@
 #!/usr/bin/python3
 
+import sys
 import time
 # Audio Import
 import pygame
 # CSV Import
 import csv
 
+if len(sys.argv)!= 3:
+	print("\nPlease call the program using:")
+	print("\t python test_server.py audio_file.mp3 timing_file.csv\n")
+	exit()
+
+audio_file_input = sys.argv[1]
+csv_file_input = sys.argv[2]
 
 # 3.457 is when renegade starts in the song
 # 5.274 is when it is matched up with the first LED ON
@@ -14,11 +22,11 @@ delay = 0
 
 
 # Audio
-with open('renegade.csv') as csvfile:
+with open(csv_file_input) as csvfile:
 	csv_reader = csv.DictReader(csvfile)
 # print("Time Before Playing: " + str(time.time()))
 	pygame.mixer.init()
-	pygame.mixer.music.load("renegade.mp3")
+	pygame.mixer.music.load(audio_file_input)
 	pygame.mixer.music.play()
 	start_time = time.time() + delay
 
