@@ -9,6 +9,8 @@ MIT License
 '''
 
 from pyserver import BluetoothServer
+from playsound import playsound
+import pygame
 
 class LightServer(BluetoothServer):
 
@@ -19,15 +21,18 @@ class LightServer(BluetoothServer):
         self.count = 0
 
     def handleMessage(self, message):
-        ...
+        print()
 #        self.send('LOW' if int(message) < 50 else 'HIGH')
 #        self.count = self.count+1
 #        self.send(str(self.count))
         
     def handleReady(self, message): 
-        ...
+    	print()
+
 if __name__ == '__main__':
-
-    server = LightServer()
-
-    server.start()
+	server = LightServer()
+	# playsound('renegade.mp3')
+	pygame.mixer.init()
+	pygame.mixer.music.load("renegade.mp3")
+	pygame.mixer.music.play()
+	server.start()
