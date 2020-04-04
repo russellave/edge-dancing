@@ -8,15 +8,19 @@ In that project, I changed/added 3 java files in app/src/main/java/. Add/replace
 To run the python script, download both lightserver.py and pyserver.py  
 
 ## Protocol for Bluetooth
-Message ends with "."
+Messages sent end with "."
 
-To control the timing of the messages for song synchronization, app must first send the message ",." to the server, and the server will reply for which lights to turn on. 
+For the controlling the light colors, there will be a string the length of the number of blocks there are in the app. Each character of the string will represent what color the string will be. The colors will be defined in "color_map.csv" and will be sent to the application at bluetooth initialization. 
 
-The message for one light to turn on will have the following format (rgb values mast have 3 numbers each): 
-"<light index 1>:<rvalue 1><gvalue 1><bvalue 1>"
+### Light Example
+Example color map is the following 
+Red-->a
+Blue-->b
+Green-->c
 
-Example: Turn light 3 red-->"3:255000000"
+If we have 5 blocks that we want to set to red, red, blue, blue, green respectively, the string sent from the server to the app is "aabbc".
 
-For multiple lights to turn on, each entry will be separated by an underscore. 
 
-Example: Turn light 3 red and light 4 blue-->"3:255000000_4:000000255"
+
+
+
