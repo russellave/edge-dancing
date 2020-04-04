@@ -17,6 +17,5 @@ def getLightsAndTimes(file = "renegade.csv"):
             lights.append(row.get('led'))
     return lights, times
             
-print(getLightsAndTimes())
             
     
