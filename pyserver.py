@@ -10,6 +10,13 @@ import os
 
 import bluetooth as bt
 
+from playsound import playsound
+import pygame
+import time
+from csv_manager import getLightsAndTimes
+
+
+
 class BluetoothServer(object):
     '''
     Provides an abstract class for serving sockets over Bluetooth.  You call the constructor and the start()
@@ -23,7 +30,7 @@ class BluetoothServer(object):
 
         # Arbitrary service UUID to advertise
         self.uuid = "7be1fcb3-5776-42fb-91fd-2ee7b5bbb86d"
-
+        self.play_music = False
         self.client_sock = None
 
     def start(self):
@@ -56,6 +63,7 @@ class BluetoothServer(object):
                            profiles=[bt.SERIAL_PORT_PROFILE])
 
         # Outer loop: listen for connections from client
+
         while True:
 
             print("Waiting for connection on RFCOMM channel %d" % port)
@@ -65,28 +73,45 @@ class BluetoothServer(object):
                 # This will block until we get a new connection
                 self.client_sock, client_info = server_sock.accept()
                 print("Accepted connection from " +  str(client_info))
-
-                # Track strings delimited by '.'
+                
                 s = ''
-                count = 1
-                while True:
+                index = 0
+                #replace messages with script to parse csv
+#                messages = ["3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255"]
+#                times = range(2,21,2)
+                messages,times = getLightsAndTimes()
+                is_started = False
+                start_time = time.time()
+                while True:                    
+                    if is_started: 
+                        current_time = time.time()
+                        time_diff = current_time - start_time
+                        time_stamp = times[index]  
+                        print(time_stamp)
+                        print(time_diff)
+                        if time_diff > time_stamp:
+                            self.send(messages[index])                            
+                            index  = (index+1)%len(messages)	
                     #need s and s because c can be the same over time
-                    c = self.client_sock.recv(1).decode('utf-8')
-                    
-                    print(c,s,count)
-                    #Full string read->do soemthing
-                    if c == '.' and len(s) > 0:
-#                        self.handleMessage(s) #handle message in lightserver.py
-                        
-                        
-                        #Ready for light signal->send
-                        if s == ',':
-                            self.send(str(count))
-                            count = (count + 1)%16
-                        s = ''
-                    
-                    else:
-                        s += c
+                    if not is_started:
+                        start_read = time.time()
+                        c = self.client_sock.recv(1).decode('utf-8')
+                        print('c is '+c)
+                        #Full string read->do soemthing
+                        if c == '.' and len(s) > 0:                        
+                            if s == "," and not is_started: 
+    #                            pygame.mixer.init()
+    #                            pygame.mixer.music.load("renegade.mp3")
+    #                            pygame.mixer.music.play()
+                                start_time = time.time()
+                                is_started = True
+                            print("READ STRING")
+                            print(s)
+                            s = ''                    
+                        else:
+                            s += c
+                        end_read = time.time()
+                        print("READING DELAY IS: "+str(start_read-end_read))
             except IOError:
                 pass
 
