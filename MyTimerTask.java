@@ -14,6 +14,7 @@ public class MyTimerTask extends TimerTask {
     private HashSet<String> possibleColor = new HashSet<>();
     private int minIndex = 1;
     private int maxIndex = 15;
+    private boolean isStart;
 
     public MyTimerTask(CommunicationsTask bt, MyCommunicationsActivity mca) {
         this.mBluetoothConnection = bt;
@@ -32,8 +33,8 @@ public class MyTimerTask extends TimerTask {
 //        for (byte b : str.getBytes()) {
 //            mBluetoothConnection.write();
 //        }
-        //tell server ready to read
-        mBluetoothConnection.write((byte) ',');
+//        //tell server ready to read
+
 
         //tell server signal done
         mBluetoothConnection.write((byte)'.');
@@ -44,9 +45,9 @@ public class MyTimerTask extends TimerTask {
             c = (char) mBluetoothConnection.read();
             if(c == '.' && s.length()>0) {
                 ls.setLightInfo(s);
-                if(possibleIndex.contains(s)){
-                    break;
-                }
+//                if(possibleIndex.contains(s)){
+                break;
+//                }
             }
             else{
                 s += c;
