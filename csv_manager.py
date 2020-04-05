@@ -16,6 +16,19 @@ def getLightsAndTimes(file = "renegade.csv"):
             times.append(float(row.get('timestamp')))
             lights.append(row.get('led'))
     return lights, times
-            
+
+def getColorInfo(file = "color_map.csv"): 
+    color2char = {} 
+    char2rgb = "col:" #string to be sent to app containing
+    with open(file) as csvfile:
+        csv_reader = csv.DictReader(csvfile)
+        for row in csv_reader:
+            color2char[row.get('Color')] = row.get('Key')
+            char2rgb += row.get('Key')+row.get('RGB')+"_" #protocol for sending color map
+    char2rgb = char2rgb[:-1]
+    return color2char, char2rgb
+
+print(getColorInfo())
+
             
     

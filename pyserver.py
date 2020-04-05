@@ -13,7 +13,7 @@ import bluetooth as bt
 from playsound import playsound
 import pygame
 import time
-from csv_manager import getLightsAndTimes
+from csv_manager import getLightsAndTimes, getColorInfo
 
 
 
@@ -80,6 +80,7 @@ class BluetoothServer(object):
 #                messages = ["3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255"]
 #                times = range(2,21,2)
                 messages,times = getLightsAndTimes()
+                color2char, char2rgb = getColorInfo()
                 is_started = False
                 start_time = time.time()
                 while True:                    
@@ -87,31 +88,34 @@ class BluetoothServer(object):
                         current_time = time.time()
                         time_diff = current_time - start_time
                         time_stamp = times[index]  
-                        print(time_stamp)
-                        print(time_diff)
+                        
                         if time_diff > time_stamp:
                             self.send(messages[index])                            
                             index  = (index+1)%len(messages)	
-                    #need s and s because c can be the same over time
-                    if not is_started:
-                        start_read = time.time()
-                        c = self.client_sock.recv(1).decode('utf-8')
-                        print('c is '+c)
-                        #Full string read->do soemthing
-                        if c == '.' and len(s) > 0:                        
-                            if s == "," and not is_started: 
-    #                            pygame.mixer.init()
-    #                            pygame.mixer.music.load("renegade.mp3")
-    #                            pygame.mixer.music.play()
-                                start_time = time.time()
-                                is_started = True
+                    #need s and s because c can be the same over time                    
+                    start_read = time.time()
+                    c = self.client_sock.recv(1).decode('utf-8')
+#                    print('c is '+c)
+                    #Full string read->do soemthing
+                    if c == '.' and len(s) > 0:
+                        if s == "color" and not is_started: 
+                            self.send(char2rgb)
                             print("READ STRING")
                             print(s)
-                            s = ''                    
-                        else:
-                            s += c
-                        end_read = time.time()
-                        print("READING DELAY IS: "+str(start_read-end_read))
+                        if s == "start" and not is_started: 
+
+                            start_time = time.time()
+                            is_started = True
+                            print("READ STRING")
+                            print(s)
+                            pygame.mixer.init()
+                            pygame.mixer.music.load("renegade.mp3")
+                            pygame.mixer.music.play()
+                        s = ''                    
+                    else:
+                        s += c
+                    end_read = time.time()
+                    print("READING DELAY IS: "+str(start_read-end_read))
             except IOError:
                 pass
 
