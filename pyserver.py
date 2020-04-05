@@ -76,9 +76,7 @@ class BluetoothServer(object):
                 
                 s = ''
                 index = 0
-                #replace messages with script to parse csv
-#                messages = ["3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255","3:255000000_4:255000000", "3:255000255_4:255000255"]
-#                times = range(2,21,2)
+                curr_state = "aaaaaaaaaaaaaaa" #all black output (assuming a is black)
                 messages,times = getLightsAndTimes()
                 color2char, char2rgb = getColorInfo()
                 is_started = False
@@ -90,32 +88,29 @@ class BluetoothServer(object):
                         time_stamp = times[index]  
                         
                         if time_diff > time_stamp:
-                            self.send(messages[index])                            
+                            self.send(messages[index])      
+                            curr_state = messages[index]
                             index  = (index+1)%len(messages)	
-                    #need s and s because c can be the same over time                    
-                    start_read = time.time()
+#                    start_read = time.time()
                     c = self.client_sock.recv(1).decode('utf-8')
-#                    print('c is '+c)
+
                     #Full string read->do soemthing
                     if c == '.' and len(s) > 0:
                         if s == "color" and not is_started: 
                             self.send(char2rgb)
-                            print("READ STRING")
-                            print(s)
-                        if s == "start" and not is_started: 
-
+                        elif s == "start" and not is_started: 
                             start_time = time.time()
                             is_started = True
-                            print("READ STRING")
-                            print(s)
                             pygame.mixer.init()
                             pygame.mixer.music.load("renegade.mp3")
                             pygame.mixer.music.play()
+                        elif not s== ".": 
+                            curr_state = self.handleTouch(s,curr_state)
                         s = ''                    
                     else:
                         s += c
                     end_read = time.time()
-                    print("READING DELAY IS: "+str(start_read-end_read))
+#                    print("READING DELAY IS: "+str(start_read-end_read))
             except IOError:
                 pass
 

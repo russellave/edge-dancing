@@ -28,7 +28,15 @@ def getColorInfo(file = "color_map.csv"):
     char2rgb = char2rgb[:-1]
     return color2char, char2rgb
 
-print(getColorInfo())
+def getTouchInfo(file = "touch_map.csv"):
+    index2color = {} 
+    with open(file) as csvfile:
+        csv_reader = csv.DictReader(csvfile)
+        for row in csv_reader:
+            index2color[row.get('Touch')] = row.get('Response')
+    return index2color
 
+print(getTouchInfo())
+    
             
     

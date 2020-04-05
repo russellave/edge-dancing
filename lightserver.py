@@ -9,7 +9,7 @@ MIT License
 '''
 
 from pyserver import BluetoothServer
-from csv_manager import getLightsAndTimes
+from csv_manager import getTouchInfo
 
 
 class LightServer(BluetoothServer):
@@ -19,15 +19,19 @@ class LightServer(BluetoothServer):
         BluetoothServer.__init__(self)
         
         self.count = 0
+        self.touch2out = getTouchInfo()
 
-    def handleMessage(self, s, message_write):
-        print()
-#        self.send('LOW' if int(message) < 50 else 'HIGH')
-#        self.count = self.count+1
-#        self.send(str(self.count))
+    def handleTouch(self, s, curr_state):
+        try: 
+            out = self.touch2out[s]
+            lst = list(curr_state)
+            lst[int(s)-1]  = out #-1 because s is 1 indexed
+            out_str = ''.join(lst)
+            self.send(out_str)
+        except: 
+            out_str = curr_state
+        return out_str
 
-        if s == ',':
-            self.send(message_write)
         
     def handleReady(self, message): 
     	print()
