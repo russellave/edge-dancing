@@ -33,7 +33,7 @@ class BluetoothServer(object):
         self.play_music = False
         self.client_sock = None
 
-    def start(self):
+    def start(self, audio_file_input, csv_file_input):
         '''
         Serves a socket on the default port, listening for clients.  Upon client connection, runs a loop to 
         that receives period-delimited messages from the client and calls the sub-class's 
@@ -77,7 +77,11 @@ class BluetoothServer(object):
                 s = ''
                 index = 0
                 curr_state = "aaaaaaaaaaaaaaa" #all black output (assuming a is black)
-                messages,times = getLightsAndTimes()
+
+                input_times = [0] * 15 # Instantiates button input list
+
+                messages,times = getLightsAndTimes(file=csv_file_input)
+                # messages,times = getLightsAndTimes()
                 color2char, char2rgb = getColorInfo()
                 is_started = False
                 start_time = time.time()
@@ -88,8 +92,13 @@ class BluetoothServer(object):
                         time_stamp = times[index]  
                         
                         if time_diff > time_stamp:
-                            self.send(messages[index])      
-                            curr_state = messages[index]
+
+                            curr_state = set_current_state(curr_state, input_times, current_time, messages[index])
+                            self.send(curr_state)
+
+                            # self.send(messages[index])      
+                            # curr_state = messages[index]
+
                             index  = (index+1)%len(messages)	
 #                    start_read = time.time()
                     c = self.client_sock.recv(1).decode('utf-8')
@@ -102,10 +111,11 @@ class BluetoothServer(object):
                             start_time = time.time()
                             is_started = True
                             pygame.mixer.init()
-                            pygame.mixer.music.load("renegade.mp3")
+                            pygame.mixer.music.load(audio_file_input)
+                            # pygame.mixer.music.load("renegade.mp3")
                             pygame.mixer.music.play()
                         elif not s== ".": 
-                            curr_state = self.handleTouch(s,curr_state)
+                            curr_state, input_times = self.handleTouch(s, curr_state, current_time, input_times)
                         s = ''                    
                     else:
                         s += c
@@ -130,3 +140,21 @@ class BluetoothServer(object):
         '''
         
         self.client_sock.send((message+'.').encode('utf-8'))
+
+    def set_current_state(curr_state, input_times, current_time, message_string):
+        message_char_list = list(message_string)
+
+        i = 0
+
+        while i < len(message_char_list):
+            if input_times[i] > current_time:
+                message_char_list[i] = curr_state[i]
+
+            i += 1
+
+        return ''.join(message_char_list)
+
+
+
+
+

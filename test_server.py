@@ -6,6 +6,7 @@ import time
 import pygame
 # CSV Import
 import csv
+from getkey import getkey, keys
 
 if len(sys.argv)!= 3:
 	print("\nPlease call the program using:")
@@ -31,7 +32,6 @@ with open(csv_file_input) as csvfile:
 	start_time = time.time() + delay
 
 
-
 # 	print("Starting loop through csv")
 
 	for row in csv_reader:
@@ -41,12 +41,23 @@ with open(csv_file_input) as csvfile:
 
 #		print("Time Diff: " + str(time_diff))
 #		print("timestamp: " + str(time_stamp))
+		key = getkey(blocking=False)
+
+		if key == 'a':
+			print("Pressed A!")
 
 		while time_diff < time_stamp:
 			current_time = time.time()
 			time_diff = current_time - start_time
 
+			key = getkey(blocking=False)
+
+			if key == 'a':
+				print("Pressed A!")
+
 		if row.get('led') == 'on':
 			print("Turning Light on")
 		else:
 			print("Turning Light off")
+
+
