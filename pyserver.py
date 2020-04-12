@@ -13,7 +13,7 @@ import bluetooth as bt
 from playsound import playsound
 import pygame
 import time
-from csv_manager import getLightsAndTimes, getColorInfo
+from csv_manager import getLightsAndTimes, getLightsAndTimesFeroze, getColorInfo
 
 
 
@@ -80,9 +80,10 @@ class BluetoothServer(object):
 
                 input_times = [0] * 15 # Instantiates button input list
 
-                messages,times = getLightsAndTimes(file=csv_file_input)
+                # messages,times = getLightsAndTimes(file=csv_file_input, initial_state=curr_state)
                 # messages,times = getLightsAndTimes()
                 color2char, char2rgb = getColorInfo()
+                messages, times = getLightsAndTimesFeroze(file=csv_file_input, initial_state=curr_state, color2char=color2char)
                 is_started = False
                 start_time = time.time()
                 while True:                    
