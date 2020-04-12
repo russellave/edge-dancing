@@ -18,8 +18,9 @@ def getLightsAndTimes(file = "renegade.csv"):
     return lights, times
 
 # Converts outputted csv from front-end into listst used by server
-def getLightsAndTimesFeroze(file="frontend_example.csv", initial_state, color2char):
+def getLightsAndTimesFeroze(file, initial_state, color2char):
     updated_state = lst(initial_state)
+    print("Update State: " + str(updated_state))
     prev_time = 0
     times = []
     lights = []
@@ -47,6 +48,9 @@ def getLightsAndTimesFeroze(file="frontend_example.csv", initial_state, color2ch
     # Saves combined changes for last time stamp
     times.append(prev_time)
     lights.append(''.join(updated_state))
+
+    print(str(lights))
+    print(str(times))
 
     return lights, times
 
