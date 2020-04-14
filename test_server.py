@@ -33,31 +33,53 @@ with open(csv_file_input) as csvfile:
 
 
 # 	print("Starting loop through csv")
+	times = []
+	lights = []
 
 	for row in csv_reader:
+		times.append(float(row.get('timestamp')))
+		lights.append(row.get('led'))
+
+
+	i = 0
+	while i < len(times):
 		current_time = time.time()
 		time_diff = current_time - start_time
-		time_stamp = float(row.get('timestamp'))
-
-#		print("Time Diff: " + str(time_diff))
-#		print("timestamp: " + str(time_stamp))
-		key = getkey(blocking=False)
-
-		if key == 'a':
-			print("Pressed A!")
+		time_stamp = times[i]
 
 		while time_diff < time_stamp:
 			current_time = time.time()
 			time_diff = current_time - start_time
 
-			key = getkey(blocking=False)
+		print(lights[i])
 
-			if key == 'a':
-				print("Pressed A!")
+		i += 1
 
-		if row.get('led') == 'on':
-			print("Turning Light on")
-		else:
-			print("Turning Light off")
+
+# 	for row in csv_reader:
+# 		current_time = time.time()
+# 		time_diff = current_time - start_time
+# 		time_stamp = float(row.get('timestamp'))
+
+# #		print("Time Diff: " + str(time_diff))
+# #		print("timestamp: " + str(time_stamp))
+# 		# key = getkey(blocking=False)
+
+# 		# if key == 'a':
+# 		# 	print("Pressed A!")
+
+# 		while time_diff < time_stamp:
+# 			current_time = time.time()
+# 			time_diff = current_time - start_time
+
+# 			# key = getkey(blocking=False)
+
+# 			# if key == 'a':
+# 			# 	print("Pressed A!")
+
+# 		if row.get('led') == 'on':
+# 			print("on")
+# 		else:
+# 			print("off")
 
 
