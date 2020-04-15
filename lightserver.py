@@ -45,13 +45,11 @@ class LightServer(BluetoothServer):
     	print()
 
 if __name__ == '__main__':
-    if len(sys.argv)!= 3:
-        print("\nPlease call the program using:")
-        print("\t python lightserver.py audio_file.mp3 timing_file.csv\n")
-        exit()
+#    if len(sys.argv)!= 3:
 
-    audio_file_input = sys.argv[1]
-    csv_file_input = sys.argv[2]
+
+    audio_file_input = "every_time_we_touch.mp3"
+    csv_file_input = "everytime_we_touch.csv"
 
     server = LightServer()
 

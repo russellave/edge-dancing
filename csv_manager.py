@@ -19,12 +19,14 @@ def getLightsAndTimes(file = "renegade.csv"):
 
 # Converts outputted csv from front-end into listst used by server
 def getLightsAndTimesFeroze(file, initial_state, color2char):
-    updated_state = lst(initial_state)
+    updated_state = list(initial_state)
     print("Update State: " + str(updated_state))
     prev_time = 0
     times = []
     lights = []
+    print('pototo')
     with open(file) as csvfile:
+        print('tomato')
         csv_reader = csv.DictReader(csvfile)
         for row in csv_reader:
             time = float(row.get('TIME'))
@@ -40,17 +42,20 @@ def getLightsAndTimesFeroze(file, initial_state, color2char):
             color_letter = color2char.get(color)
 
             if color_letter is None:
+                color_letter = "A"
                 print("Color: " + color + " is not in color_map.csv")
-                return lights, times
+#                return lights, times
 
             updated_state[light_index] = color_letter
+        
 
     # Saves combined changes for last time stamp
     times.append(prev_time)
     lights.append(''.join(updated_state))
 
-    print(str(lights))
+    print('lights is' +str(lights))
     print(str(times))
+    print('hi')
 
     return lights, times
 
@@ -73,7 +78,5 @@ def getTouchInfo(file = "touch_map.csv"):
             index2color[row.get('Touch')] = row.get('Response')
     return index2color
 
-print(getTouchInfo())
-    
-            
+ 
     

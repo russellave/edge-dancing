@@ -83,10 +83,12 @@ class BluetoothServer(object):
                 # messages,times = getLightsAndTimes(file=csv_file_input, initial_state=curr_state)
                 # messages,times = getLightsAndTimes()
                 color2char, char2rgb = getColorInfo()
-                messages, times = getLightsAndTimesFeroze(file=csv_file_input, initial_state=curr_state, color2char=color2char)
+                messages, times = getLightsAndTimes(file=csv_file_input)
+                print(messages, times)
                 is_started = False
                 start_time = time.time()
-                while True:                    
+                while True:    
+                    current_time = time.time()
                     if is_started: 
                         current_time = time.time()
                         time_diff = current_time - start_time
@@ -94,7 +96,7 @@ class BluetoothServer(object):
                         
                         if time_diff > time_stamp:
 
-                            curr_state = set_current_state(curr_state, input_times, current_time, messages[index])
+                            curr_state = self.set_current_state(curr_state, input_times, current_time, messages[index])
                             self.send(curr_state)
 
                             # self.send(messages[index])      
@@ -106,9 +108,11 @@ class BluetoothServer(object):
 
                     #Full string read->do soemthing
                     if c == '.' and len(s) > 0:
+                        s = s.strip('.')
                         if s == "color" and not is_started: 
                             self.send(char2rgb)
                         elif s == "start" and not is_started: 
+                            print("GOT START")
                             start_time = time.time()
                             is_started = True
                             pygame.mixer.init()
@@ -116,6 +120,8 @@ class BluetoothServer(object):
                             # pygame.mixer.music.load("renegade.mp3")
                             pygame.mixer.music.play()
                         elif not s== ".": 
+                            print("READING TOUCH")
+                            print(s)
                             curr_state, input_times = self.handleTouch(s, curr_state, current_time, input_times)
                         s = ''                    
                     else:
@@ -142,7 +148,7 @@ class BluetoothServer(object):
         
         self.client_sock.send((message+'.').encode('utf-8'))
 
-    def set_current_state(curr_state, input_times, current_time, message_string):
+    def set_current_state(self,curr_state, input_times, current_time, message_string):
         message_char_list = list(message_string)
 
         i = 0
