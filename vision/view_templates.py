@@ -6,7 +6,7 @@ Created on Tue Apr 14 11:28:51 2020
 """
 import cv2 
 
-
+import os
 def init_temps(temp_dir = 'templates'):
     temps = []
     for temp_file in os.listdir(temp_dir):

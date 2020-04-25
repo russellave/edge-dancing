@@ -13,7 +13,8 @@ def getLightsAndTimes(file = "renegade.csv"):
     with open(file) as csvfile:
         csv_reader = csv.DictReader(csvfile)
         for row in csv_reader:
-            times.append(float(row.get('timestamp')))
+            ts = row.get('timestamp')
+            times.append(float(ts))
             lights.append(row.get('led'))
     return lights, times
 
@@ -78,5 +79,13 @@ def getTouchInfo(file = "touch_map.csv"):
             index2color[row.get('Touch')] = row.get('Response')
     return index2color
 
- 
+def getPoseInfo(file = "pose_map.csv"):
+    pose2out = {} 
+    with open(file) as csvfile:
+        csv_reader = csv.DictReader(csvfile)
+        for row in csv_reader:
+            print(row)
+            pose2out[row.get('ï»¿Pose')] = row.get('Output')
+    return pose2out    
+
     

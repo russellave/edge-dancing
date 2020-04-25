@@ -1,6 +1,10 @@
-filename = 'every_time_we_touch.mp3';
+filename = 'feroze_song.mp3';
 [y,Fs] = audioread(filename);
 
-sound(y,Fs);
+% sound(y,Fs);
 
+[pks, locs] = findpeaks(y(:,1), 'MinPeakDistance',Fs/10);
 
+size(locs)
+
+locs/Fs

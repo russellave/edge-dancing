@@ -15,7 +15,7 @@ import pygame
 import time
 from csv_manager import getLightsAndTimes, getLightsAndTimesFeroze, getColorInfo
 
-
+import cv2
 
 class BluetoothServer(object):
     '''
@@ -69,7 +69,7 @@ class BluetoothServer(object):
             print("Waiting for connection on RFCOMM channel %d" % port)
 
             try:
-
+                cap = 0
                 # This will block until we get a new connection
                 self.client_sock, client_info = server_sock.accept()
                 print("Accepted connection from " +  str(client_info))
@@ -80,8 +80,6 @@ class BluetoothServer(object):
 
                 input_times = [0] * 15 # Instantiates button input list
 
-                # messages,times = getLightsAndTimes(file=csv_file_input, initial_state=curr_state)
-                # messages,times = getLightsAndTimes()
                 color2char, char2rgb = getColorInfo()
                 messages, times = getLightsAndTimes(file=csv_file_input)
                 print(messages, times)
@@ -113,6 +111,8 @@ class BluetoothServer(object):
                             self.send(char2rgb)
                         elif s == "start" and not is_started: 
                             print("GOT START")
+#                            cap = cv2.VideoCapture(0)
+
                             start_time = time.time()
                             is_started = True
                             pygame.mixer.init()
@@ -126,8 +126,26 @@ class BluetoothServer(object):
                         s = ''                    
                     else:
                         s += c
-                    end_read = time.time()
-#                    print("READING DELAY IS: "+str(start_read-end_read))
+                    if cap: 
+                        refresh_rate = 30
+                        frame_count = 0
+                    
+                            
+                        ret, frame = cap.read()
+                        if frame_count == 0: 
+                            self.doImage(frame)
+                        
+                
+                        if cv2.waitKey(1) & 0xFF == ord('q'):
+                            break
+                        
+                        
+                        frame_count = (frame_count +1)%refresh_rate
+                    
+                cap.release()
+                cv2.destroyAllWindows()
+                        
+               
             except IOError:
                 pass
 
